@@ -159,7 +159,7 @@ export function getPullRequestPlan (
   const failingConditions = Object.entries(pullRequestStatus)
     .filter(([conditionName, conditionResult]) => conditionResult.status === 'fail')
 
-  if (pendingConditions.length > 0) {
+  if (pendingConditions.length > 0 && pullRequestInfo.mergeStateStatus != MergeStateStatus.BEHIND) {
     return {
       code: 'pending_condition',
       message: markdownParagraphs([
@@ -171,7 +171,7 @@ export function getPullRequestPlan (
     }
   }
 
-  if (failingConditions.length > 0) {
+  if (failingConditions.length > 0 && pullRequestInfo.mergeStateStatus != MergeStateStatus.BEHIND) {
     return {
       code: 'failing_condition',
       message: markdownParagraphs([
